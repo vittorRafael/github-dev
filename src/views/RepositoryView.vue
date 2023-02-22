@@ -10,7 +10,7 @@
         <div class="stars"><img src="../assets/star_black.svg" alt="star"><span>{{repositorio.forks}}</span></div>
       </article>
         <button v-if="mostrar && contador <= 26" @click="verMais">Ver mais</button>
-        <button v-else-if="mostrarPage && contador > 26" @click="fetchPage(url.searchParams.get('repositorio'))">Ver mais</button>
+        <button v-else-if="mostrarPage && contador > 26" @click="fetchPage">Ver mais</button>
       </section>
       <section class="modal" v-else>
         <ModalComp />
@@ -23,6 +23,7 @@
 export default {
 
   name: 'RepositoryView',
+  props: ['repo'],
   components: {
     ModalComp
   },
@@ -39,8 +40,8 @@ export default {
     }
   },
   methods: {
-    fetchRepositorio(repositorio_url){
-      fetch(`https://api.github.com/search/repositories?q=${repositorio_url}&page=1`)
+    fetchRepositorio(){
+      fetch(`https://api.github.com/search/repositories?q=${this.repo}&page=1`)
         .then(r => r.json())
         .then(r => {
           this.repositorios = r
@@ -61,9 +62,9 @@ export default {
         .catch((err) => console.log(err))
         this.contador += 3
     },
-    fetchPage(repositorio_url){
+    fetchPage(){
       this.pagina++;
-      fetch(`https://api.github.com/search/repositories?q=${repositorio_url}&page=${this.pagina}`)
+      fetch(`https://api.github.com/search/repositories?q=${this.repo}&page=${this.pagina}`)
       .then(r=> r.json())
       .then(r => {
         this.contador = 1;
@@ -104,7 +105,7 @@ export default {
       let pagina_repo = e.target.dataset.pagina
       console.log('repositorio.length: ',this.repositorio.length)
       console.log('pagina_repo', pagina_repo)
-      fetch(`https://api.github.com/search/repositories?q=${this.url.searchParams.get('repositorio')}&page=${pagina_repo}`)
+      fetch(`https://api.github.com/search/repositories?q=${this.repo}&page=${pagina_repo}`)
       .then(r => r.json())
       .then(r => {
         var favoritosArray = JSON.parse(localStorage.getItem('favoritos')) || new Array()
@@ -139,7 +140,8 @@ export default {
     },
   },
   created(){
-    this.fetchRepositorio(this.url.searchParams.get('repositorio'))
+    this.fetchRepositorio()
+    console.log(this.repo)
   }
 }
 </script>

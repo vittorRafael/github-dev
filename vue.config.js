@@ -1,8 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/my-project'
-    : '/githubapp-dist'
-  ,
-  transpileDependencies: true
+  transpileDependencies: true,
+  publicPath: '/githubapp',
 })

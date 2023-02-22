@@ -6,13 +6,8 @@
         <button @click="selecionado = true" :class="selecionado ? 'ativo' : ''">Repositório</button>
         <button @click="selecionado = false" :class="selecionado ? '' : 'ativo'">Usuário</button>
       </div>
-      <form action="/repositorios/" v-if="selecionado">
-        <input type="text" name="repositorio" id="repositorio" placeholder="Buscar Repositório...">
-      </form>
-
-      <form action="/usuarios/" v-if="!selecionado">
-        <input type="text" name="usuario" id="usuario" placeholder="Buscar Usuário...">
-      </form>
+        <input v-if="selecionado" @keyup.enter="pesquisarRepo" type="text" name="repositorio" id="repositorio" placeholder="Buscar Repositório...">
+        <input v-if="!selecionado" @keyup.enter="pesquisarUsuario" type="text" name="usuario" id="usuario" placeholder="Buscar Usuário...">
     </section>
   </main>
 </template>
@@ -28,6 +23,16 @@ export default {
       mostrarUsuario: false
     }
   },
+  methods: {
+    pesquisarRepo(e){
+      console.log(e.target.value)
+      this.$router.push({name: 'repositorios', params: {repo: e.target.value}})
+    },
+    pesquisarUsuario(e){
+      console.log(e.target.value)
+      this.$router.push({name: 'usuarios', params: {user: e.target.value}})
+    }
+  }
 }
 </script>
 

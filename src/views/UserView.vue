@@ -8,7 +8,7 @@
         </router-link>
       </article>
       <button v-if="mostrar && contador <= 26" @click="verMais">Ver mais</button>
-      <button v-else-if="mostrarPage && contador > 26" @click="fetchPage(url.searchParams.get('usuario'))">Ver mais</button>
+      <button v-else-if="mostrarPage && contador > 26" @click="fetchPage">Ver mais</button>
     </section>
     <section class="modal" v-else>
       <ModalComp />
@@ -20,6 +20,7 @@
 import ModalComp from '@/components/ModalComp.vue'
 export default {
   name: 'UserView',
+  props: ['user'],
   components: {
     ModalComp
   },
@@ -29,14 +30,13 @@ export default {
       usuario: null,
       contador: 0,
       pagina: 2,
-      url: new URL(window.location.href),
       mostrar: true,
       mostrarPage: true,
     }
   },
   methods: {
-    fetchUsuario(usuario_url) {
-      fetch(`https://api.github.com/search/users?q=${usuario_url}&page=1`)
+    fetchUsuario() {
+      fetch(`https://api.github.com/search/users?q=${this.user}&page=1`)
         .then(r => r.json())
         .then(r => {
           this.usuarios = r
@@ -48,8 +48,8 @@ export default {
         })
         .catch((err) => console.log(err))
     },
-    fetchPage(usuario_url) {
-      fetch(`https://api.github.com/search/users?q=${usuario_url}&page=${this.pagina}`)
+    fetchPage() {
+      fetch(`https://api.github.com/search/users?q=${this.user}&page=${this.pagina}`)
         .then(r => r.json())
         .then(r => {
           this.contador = 0;
@@ -71,7 +71,7 @@ export default {
     }
   },
   created() {
-    this.fetchUsuario(this.url.searchParams.get('usuario'))
+    this.fetchUsuario()
   }
 }
 </script>

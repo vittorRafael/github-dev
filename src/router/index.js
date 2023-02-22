@@ -5,6 +5,7 @@ import FavoriteView from '../views/FavoriteView.vue'
 import UserView from '../views/UserView.vue'
 import RepositoryView from '../views/RepositoryView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -20,9 +21,10 @@ const routes = [
     component: FavoriteView,
   },
   {
-    path: '/usuarios/',
+    path: '/usuarios/:user',
     name: 'usuarios',
     component: UserView,
+    props: true,
   },
   {
     path: '/usuario/:login',
@@ -31,15 +33,21 @@ const routes = [
     props: true
   },
   {
-    path: '/repositorios/',
+    path: '/repositorios/:repo',
     name: 'repositorios',
-    component: RepositoryView
-  }
+    component: RepositoryView,
+    props: true
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: 'githubapp',
   routes
 })
 

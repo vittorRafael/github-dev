@@ -1,32 +1,90 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <NavbarComp />
     <router-view/>
   </div>
 </template>
 
+<script>
+import NavbarComp from './components/NavbarComp.vue';
+export default {
+  name: 'AppVue',
+  components: {
+    NavbarComp,
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  *{
+    margin: 0;
+    padding: 0;
+    font-family: 'inter';
+  }
+  a{
+    color: black;
+    text-decoration: none;
+  }
 
-nav {
-  padding: 30px;
-}
+  main.home{
+    max-width: 1000px;
+    margin: 40px auto;
+  }
+  
+  section.home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+  }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  section.home>div{
+    display: flex;
+    gap: 50px;
+  }
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+  button{
+    padding: 10px 50px;
+    border-radius: 5px;
+    border: 1px solid;
+    font-weight: 700;
+    font-size: 18px;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
+    background: white;
+    cursor: pointer;
+  }
+
+  button:hover{
+    background: black;
+    color: white;
+    transition: all .5s;
+  }
+
+  .modal{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    background: rgba(0, 0, 0, 0.5);
+    left: 0;
+  }
+
+  @media (max-width: 1000px){
+    main.home{
+      margin: 40px 20px;
+    }
+  }
+
+  @media (max-width: 600px){
+    section.home>div{
+      gap: 20px;
+    }
+    button{
+      padding: 10px 20px;
+    }
+  }
+  .gold{
+    filter: invert(81%) sepia(99%) saturate(2450%) hue-rotate(335deg) brightness(97%) contrast(101%) !important;
+  }
 </style>
